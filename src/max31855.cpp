@@ -2,7 +2,17 @@
 #include "max31855.h"
 
 /**
+ * @brief Initialize the MAX31855 device
  *
+ * This function configures the SPI interface and GPIO pins for communication
+ * with the MAX31855 thermocouple-to-digital converter. It validates the SPI
+ * speed to ensure it's within the device's specifications and sets up the
+ * chip select pin.
+ *
+ * @param spi_library Reference to the SPI library instance to use
+ * @param spi_speed SPI clock speed in Hz (must not exceed 5MHz)
+ * @param pin_cs Chip select pin number
+ * @return 0 on success, -EINVAL if spi_speed exceeds 5MHz
  */
 int max31855::setup(SPIClass &spi_library, const int spi_speed, const int pin_cs) {
 
@@ -25,13 +35,23 @@ int max31855::setup(SPIClass &spi_library, const int spi_speed, const int pin_cs
 }
 
 /**
+ * @brief Read temperature and diagnostic data from the MAX31855
  *
- * @param[out] temperature_thermocouple_c
- * @param[out] temperature_internal_c
- * @param[out] is_shorted_vcc
- * @param[out] is_shorted_gnd
- * @param[out] is_open
- * @return 0 in case of success or a negative error code otherwise.
+ * This function performs a complete read operation from the MAX31855 device.
+ * It reads the 32-bit register that contains both temperature measurements
+ * (thermocouple and internal reference junction) as well as fault detection flags.
+ * The temperature values are converted from the raw register format to floating
+ * point Celsius values.
+ *
+ * The thermocouple temperature has a resolution of 0.25°C.
+ * The internal temperature has a resolution of 0.0625°C.
+ *
+ * @param[out] temperature_thermocouple_c Thermocouple temperature in Celsius
+ * @param[out] temperature_internal_c Internal reference junction temperature in Celsius
+ * @param[out] is_shorted_vcc True if thermocouple is shorted to VCC
+ * @param[out] is_shorted_gnd True if thermocouple is shorted to GND
+ * @param[out] is_open True if thermocouple connection is open
+ * @return 0 on success
  */
 int max31855::read(float &temperature_thermocouple_c, float &temperature_internal_c, bool &is_shorted_vcc, bool &is_shorted_gnd, bool &is_open) {
 
