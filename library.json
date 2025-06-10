@@ -1,6 +1,6 @@
 {
     "name": "Sitron_Labs_MAX31855_Arduino_Library",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "Arduino library for the Analog Devices MAX31855 thermocouple-to-digital converter.",
     "keywords": "sitron labs,sitron,labs,arduino,library,maxim,maxim integrated,analog devices,max31855,thermocouple,converter,spi",
     "repository": {
@@ -9,7 +9,9 @@
     },
     "frameworks": "arduino",
     "platforms": "*",
-    "dependencies": [],
+    "dependencies": {
+        "SPI": "*"
+    },
     "build": {
         "includeDir": "src"
     }
